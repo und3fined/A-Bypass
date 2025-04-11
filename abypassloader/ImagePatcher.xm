@@ -1,7 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <MRYIPCCenter.h>
 #import <dlfcn.h>
-#import <AppList/AppList.h>
 #import <unistd.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <spawn.h>
@@ -384,7 +383,7 @@ void remove2() {
     0x29, 0x03, 0x09, 0x2A,
     0x59, 0x00, 0x36, 0x0A,
     0xC2, 0x02, 0x22, 0x0A,
-    0x22, 0x03, 0x02, 0x2A, 
+    0x22, 0x03, 0x02, 0x2A,
   };
   findSegment(target3, sizeof(target3), &patch2_1);
 
@@ -394,7 +393,7 @@ void remove2() {
     0xF8, 0x03, 0x40, 0xB9,
     0xF8, 0x0B, 0x00, 0xB9,
     0xF8, 0x0B, 0x40, 0xB9,
-    0x1F, 0x03, 0x0A, 0x6B, 
+    0x1F, 0x03, 0x0A, 0x6B,
   };
   findSegment(target4, sizeof(target4), &patch2_1);
 }
@@ -599,7 +598,7 @@ void remove6() {
   // 마이 케이티(6.4.2): -[MyKtIntroViewController checkRoutine]
   const uint64_t ix_sysCheckInit_Target_2[] = {
     0x88DFFD09, // LDAR
-    0x90000000, // ADRP 
+    0x90000000, // ADRP
     0x90000000, // ADD
     0xA93923AA, // STP
     0x35013269 // CNBZ
@@ -705,7 +704,7 @@ void hookingSVC80Handler(RegisterContext *reg_ctx, const HookEntryInfo *info) {
     int num_syscall = (int)(uint64_t)(reg_ctx->general.regs.x16);
     char *arg1 = (char *)reg_ctx->general.regs.x0;
     debugMsg(@"[ABZZ] System PRECALL %d %p %p", num_syscall, info->target_address, (uint8_t *)_dyld_get_image_vmaddr_slide(0));
-    
+
     if(num_syscall == SYS_symlink) {
       char *arg2 = (char *)reg_ctx->general.regs.x1;
       [[ABPattern sharedInstance] usk:@(arg1) n:@(arg2)];

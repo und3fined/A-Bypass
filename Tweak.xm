@@ -1,7 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <MRYIPCCenter.h>
 #import <dlfcn.h>
-#import <AppList/AppList.h>
 #include <unistd.h>
 #include <CommonCrypto/CommonDigest.h>
 #include <spawn.h>
@@ -161,11 +160,11 @@ extern "C" CFPropertyListRef MGCopyAnswer(CFStringRef property);
 }
 %end
 
-%hook SBMainWorkspace 
+%hook SBMainWorkspace
 -(void)applicationProcessDidLaunch:(FBProcess *)arg1 {
   if (isSubstitute && access(DisableLocation, F_OK) != -1) remove(DisableLocation);
   // if([vnodeBypassIdentifiers containsObject:arg1.bundleIdentifier]) {
-  //   // [NSThread sleepForTimeInterval:2]; 
+  //   // [NSThread sleepForTimeInterval:2];
   // }
   return %orig;
 }

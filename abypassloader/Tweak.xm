@@ -1,7 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <MRYIPCCenter.h>
 #import <dlfcn.h>
-#import <AppList/AppList.h>
 #import <unistd.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <spawn.h>
@@ -80,7 +79,7 @@ int isSafePTR(int64_t ptr) {
 }
 %end
 
-// TODO: 이거 없이 패치하기. 
+// TODO: 이거 없이 패치하기.
 %hook Liapp
 +(int)LA1 {
   return 0;
@@ -99,7 +98,7 @@ int isSafePTR(int64_t ptr) {
   if(!([identifier isEqualToString:@"com.teamblind.blind"] || [identifier isEqualToString:@"finance.chai.app"] || [identifier isEqualToString:@"com.sentbe.ionic"] || [identifier isEqualToString:@"co.whatssub.application"])) return %orig;
   if([viewControllerToPresent isKindOfClass:[UIAlertController class]]) {
     if([((UIAlertController *)viewControllerToPresent).title isEqualToString:@"LIAPP"]) {
-      self.view.window.hidden = true; 
+      self.view.window.hidden = true;
     }
   }
   %orig;
@@ -370,10 +369,10 @@ int isSafePTR(int64_t ptr) {
 %end
 %hook DataManager
 -(void)setP_gCheckGuard:(id)arg1 {
-  
+
 }
 -(void)setGCheckGuard:(id)arg1 {
-  
+
 }
 %end
 %hook AFSDKChecksum
@@ -478,16 +477,16 @@ int isSafePTR(int64_t ptr) {
 
 }
 +(void)swizzling {
-	
+
 }
 +(void)hooking {
-	
+
 }
 +(void)debugging {
-	
+
 }
 +(void)checksum {
-	
+
 }
 +(void)executeAIP:(NSInteger)arg1 {
 
@@ -503,13 +502,13 @@ int isSafePTR(int64_t ptr) {
 
 }
 -(void)detectedWithSource:(id)arg1 rawValue:(NSInteger)arg2 completion:(id)arg3 {
-  
+
 }
 +(void)detectWithSource:(id)arg1 type:(NSInteger)arg2 completion:(id)arg3 {
 
 }
 +(void)detectedWithSource:(id)arg1 rawValue:(NSInteger)arg2 completion:(id)arg3 {
-  
+
 }
 %end
 %hook _TtC17kakaobank_library13ArxanReporter
@@ -528,9 +527,9 @@ int isSafePTR(int64_t ptr) {
 
 }
 %end
-%hook AIPExecutor 
+%hook AIPExecutor
 -(void)configureAIP {
-  
+
 }
 -(void)configureReport:(id)arg1 {
 
@@ -563,7 +562,7 @@ int isSafePTR(int64_t ptr) {
 %end
 %hook BCAppDelegate
 - (void)arxanHackingDetected:(id)arg1 {
-  
+
 }
 %end
 %hook mVaccine
@@ -1287,7 +1286,7 @@ int stat(const char *path, struct stat *result);
 %hookf(int, fstatat, int dirfd, const char *pathname, struct stat *buf, int flags) {
   if(pathname) {
     NSString *path = @(pathname);
-        
+
     char dirfdpath[PATH_MAX];
     if(fcntl(dirfd, F_GETPATH, dirfdpath) != -1) {
         path = [@(dirfdpath) stringByAppendingPathComponent:path];
@@ -1333,13 +1332,13 @@ int stat(const char *path, struct stat *result);
         if(![path isAbsolutePath]) {
             // Get path of dirfd.
             char dirfdpath[PATH_MAX];
-        
+
             if(fcntl(dirfd, F_GETPATH, dirfdpath) != -1) {
                 NSString *dirfd_path = @(dirfdpath);
                 path = [dirfd_path stringByAppendingPathComponent:path];
             }
         }
-        
+
         if(![[ABPattern sharedInstance] u:path i:20022]) {
             errno = ENOENT;
             return -1;
@@ -1355,13 +1354,13 @@ int stat(const char *path, struct stat *result);
         if(![path isAbsolutePath]) {
             // Get path of dirfd.
             char dirfdpath[PATH_MAX];
-        
+
             if(fcntl(dirfd, F_GETPATH, dirfdpath) != -1) {
                 NSString *dirfd_path = @(dirfdpath);
                 path = [dirfd_path stringByAppendingPathComponent:path];
             }
         }
-        
+
         if(![[ABPattern sharedInstance] u:path i:20023]) {
             errno = ENOENT;
             return -1;
@@ -1487,7 +1486,7 @@ typedef int8 BYTE;
         newInfoArray[count] = dyld_info->infoArray[i];
         count++;
       }
-      
+
       int count2 = 0;
       struct dyld_uuid_info *newUUIDArray = (struct dyld_uuid_info*)malloc(sizeof(struct dyld_uuid_info) * arrayCount);
       for(int i=0; i < dyld_info->uuidArrayCount; i++) {
@@ -1572,7 +1571,7 @@ typedef int8 BYTE;
 
 %hookf(kern_return_t, vm_region_recurse_64, vm_map_t map, vm_address_t *address, vm_size_t *size, uint32_t *depth, vm_region_submap_info_t info64_t, mach_msg_type_number_t *infoCnt) {
   kern_return_t ret = %orig;
-  
+
   if(ret == KERN_SUCCESS) {
     vm_region_submap_info *info = (vm_region_submap_info *)info64_t;
     if(info->is_submap) {
@@ -1673,14 +1672,14 @@ int (*orig_syscall)(int number, ...);
 int hooked_syscall(int number, ...) {
   HBLogError(@"ABPatternsyscall %d", number);
 
-  char *path;  
+  char *path;
   char *stack[8];
-  
+
   va_list args;
   va_start(args, number);
-  
+
   memcpy(stack, args, 8 * 8);
-  
+
   if (number == SYS_proc_info) {
     return KERN_FAILURE;
   } else if(number == SYS_access) {
@@ -1763,7 +1762,7 @@ static char* my_strstr(char* str1, const char* str2) {
 void showProgress() { [center callExternalMethod:@selector(handleUpdateLicense:) withArguments:@{ @"type": @3, @"max": @"10" }]; }
 void loadingProgress(NSString *per) { [center callExternalMethod:@selector(handleUpdateLicense:) withArguments:@{ @"type": @4, @"per": per, @"max": @"10" }]; }
 void hideProgress() { [center callExternalMethod:@selector(handleUpdateLicense:) withArguments:@{ @"type": @5 }]; }
-void debugAlert(NSString *text) { 
+void debugAlert(NSString *text) {
   [center callExternalVoidMethod:@selector(handleShowNotification:) withArguments:@{
     @"title" : @"A-Bypass Debug Alert",
     @"message" : text,
@@ -1773,7 +1772,7 @@ void debugAlert(NSString *text) {
 
 %ctor {
   // return;
-  identifier = [NSBundle mainBundle].bundleIdentifier;    
+  identifier = [NSBundle mainBundle].bundleIdentifier;
   center = [MRYIPCCenter centerNamed:@"com.rpgfarm.a-bypass"];
   // [NSThread sleepForTimeInterval:0.15];
   showProgress();
@@ -1922,7 +1921,7 @@ void debugAlert(NSString *text) {
     //       @"identifier": @"com.apple.Preferences"
     //     }];
     //   }
-    // ); 
+    // );
 
     NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.rpgfarm.abypassprefs.plist"];
     if([prefs[@"advanced"][identifier][@"ABASMBlackList"] isEqual:@1]) ABSI.ABASMBlackList = @[identifier];
@@ -1944,7 +1943,7 @@ void debugAlert(NSString *text) {
 
     if([identifier isEqualToString:@"com.vivarepublica.cash"]) {
       if(!objc_getClass("StockNewsdmManager")) {
-        
+
         if([version isEqualToString:@"5.5.0"]) {
           // didFinishLaunchingWithOptions 최상단
           patchData(0x101290dc4, 0xC0035FD6);
@@ -1965,7 +1964,7 @@ void debugAlert(NSString *text) {
           patchData(0x10069d3e4, 0xC0035FD6);
           patchData(0x1014c1068, 0xC0035FD6);
           patchData(0x1016fa598, 0xC0035FD6);
-        } 
+        }
 
         // 이건 자동으로 찾아내는 것
         remove1();
