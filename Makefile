@@ -1,6 +1,9 @@
-TARGET = iphone:clang:12.2:12.2
-ARCHS = arm64 arm64e
-PREFIX="/Library/Developer/TheosToolchains/Xcode11.xctoolchain/usr/bin/"
+export TARGET = iphone:clang:16.5:14.0
+export SDK_PATH = $(THEOS)/sdks/iPhoneOS16.5.sdk/
+export ARCHS = arm64 arm64e
+export SYSROOT = $(SDK_PATH)
+
+# PREFIX="/Library/Developer/TheosToolchains/Xcode11.xctoolchain/usr/bin/"
 # STRIP = 0
 
 CURDIR := $(shell pwd)
