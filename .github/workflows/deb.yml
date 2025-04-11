@@ -9,15 +9,21 @@ jobs:
     strategy:
       matrix:
         provider: [ful, less]
-  
+
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-  
+
       - name: Prepare Theos
         uses: und3fined/theos-action@main
-  
+
+      - name: Setup deps
+        run: |
+          # Add MRYIPC from Baw-Apple/MRYIPC
+          curl -s https://github.com/Baw-Appie/MRYIPC/raw/refs/heads/master/MRYIPCCenter.h -o $THEOS/include/MRYIPCCenter.h
+          curl -s https://github.com/Baw-Appie/MRYIPC/raw/refs/heads/master/usr/lib/libmryipc.dylib -o $THEOS/lib/libmryipc.dylib
+
       - name: Build package
         run: |
           # make package
