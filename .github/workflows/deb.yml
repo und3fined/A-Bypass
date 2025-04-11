@@ -1,0 +1,37 @@
+name: Build deb
+
+on:
+  push:
+
+jobs:
+  build-debs:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        provider: [ful, less]
+  
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+  
+      - name: Prepare Theos
+        uses: und3fined/theos-action@main
+  
+      - name: Build package
+        run: |
+          # make package
+          if [[ ${{matrix.provider}} == less ]]; then
+            sed -i'' -e 's/iphoneos-arm/iphoneos-arm64/g' control
+            make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          else
+            make package FINALPACKAGE=1
+          fi
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
+
+      - name: Publish artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{matrix.provider}}
+          path: ${{ github.workspace }}/packages/*.deb
